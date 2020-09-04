@@ -1,3 +1,6 @@
 {
-  "MONGO_URI": "mongodb+srv://Aryo:Hockeyman0917*@waratseaships.txuka.mongodb.net/ships?retryWrites=true&w=majority"
+  "MONGO_URI": "mongodb+srv://Aryo:Hockeyman0917*@waratseaships.txuka.mongodb.net/ships?retryWrites=true&w=majority",
+  "cloud_name": "dd3ohuzsz",
+  "api_key": "536259386247243",
+  "api_secret": "q4UVacMQvinoSiinbSKyjx6tyUo"
 }

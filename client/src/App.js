@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import Header from './components/header';
+import Header from './components/Header';
 import Points from './components/Points';
 
 import Allies from './components/pickers/Allies';
@@ -18,6 +18,7 @@ import './app.css';
 import { Provider } from 'react-redux';
 import store from './store';
 function App() {
+
   return (
     <Provider store={store}>
       <div className="App">

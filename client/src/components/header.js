@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-
-const header = (props) => {
+import { connect } from 'react-redux';
+import { loadAllShips } from '../actions/ships';
+const Header = ({ loadAllShips }) => {
+    useEffect(() => {
+        console.log('in the use effect');
+        loadAllShips();
+    }, []);
     return (
         <div className="header">
             <span className="first-half">
@@ -14,4 +19,4 @@ const header = (props) => {
     )
 }
 
-export default header;
+export default connect(null, { loadAllShips })(Header);

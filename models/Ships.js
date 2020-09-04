@@ -18,6 +18,12 @@ const ShipSchmea = new Schema({
     points: {
         type: Number,
         required: true
+    },
+    image: {
+        type: String
+    },
+    class: {
+        type: String
     }
 });
 

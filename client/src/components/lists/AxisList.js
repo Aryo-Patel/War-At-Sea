@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import AddShips from './AddShips';
-const AxisList = props => {
+import ShipsShown from './ShipsShown';
+import { connect } from 'react-redux';
+
+const AxisList = ({ points }) => {
     const [shipsLoaded, changeShips] = useState(false);
 
     function addAxis() {
@@ -11,7 +14,7 @@ const AxisList = props => {
             <div className="axis-list-header-wrapper">
                 <div className="text-wrapper">
                     <h4>Axis list</h4>
-                    <p>0 / 0</p>
+                    <p>0 / {points}</p>
                 </div>
                 <div className="save-options">
                     <i className="fa fa-print"></i>
@@ -22,6 +25,7 @@ const AxisList = props => {
                 <hr />
             </div>
             <div className="add-unit">
+                <ShipsShown faction='axis' />
                 <p onClick={e => addAxis(e)}>[{shipsLoaded ? '-' : '+'}] Add Unit</p>
                 {shipsLoaded && (
                     <AddShips faction="axis" />
@@ -31,4 +35,8 @@ const AxisList = props => {
     )
 }
 
-export default AxisList;
+const mapStateToProps = state => ({
+    points: state.points
+})
+
+export default connect(mapStateToProps, {})(AxisList);

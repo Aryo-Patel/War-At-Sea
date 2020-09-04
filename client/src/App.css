@@ -206,6 +206,7 @@ body {
 }
 .add-unit {
   position: relative;
+  flex-direction: column;
   min-height: 88px;
   display: flex;
   justify-content: center;
@@ -215,16 +216,43 @@ body {
 .add-unit > p:hover {
   cursor: pointer;
 }
+.add-unit > p {
+  position: relative;
+  padding-bottom: 20px;
+}
+.display-ship-wrapper {
+  width: 95%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.ship-wrapper {
+  padding: 5px;
+  border: 1px solid grey;
+  margin: 5px;
+}
+.image-ship-placard {
+  max-width: 100%;
+  height: auto;
+}
+.no-pointer {
+  pointer-events: none;
+}
+.delete {
+  float: right;
+}
+.delete:hover {
+  cursor: pointer;
+}
 #add-ship {
   position: absolute;
   min-width: 45%;
   min-height: 300px;
   max-height: 400px;
   z-index: 10;
-  top: calc(50% + 20px);
   background-color: #f2f2f2;
   border: 1px solid #c5c5c5;
   overflow-y: scroll;
+  top: calc(100% - 20px);
 }
 #ship-content {
   margin: 0 auto;
@@ -274,7 +302,16 @@ body {
 .db-container-banner {
   padding: 10px;
 }
-
+.db-container-text-options {
+  display: flex;
+  justify-content: space-evenly;
+}
+.non-selected {
+  font-weight: normal;
+}
+.db-container-header {
+  cursor: pointer;
+}
 .specifications {
   margin: 0 auto;
   width: 80%;
@@ -302,4 +339,9 @@ body {
 
 .database-submit:hover {
   cursor: pointer;
+}
+
+.existing-image {
+  max-width: 100%;
+  height: auto;
 }

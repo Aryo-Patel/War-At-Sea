@@ -1,7 +1,15 @@
 const router = require('express').Router();
+const config = require('config');
 
+const cloudinary = require('cloudinary').v2;
 const Ships = require('../models/Ships');
+const multer = require('multer');
+const upload = multer();
+const streamifier = require('streamifier');
 
+const cloud_name = config.get('cloud_name');
+const api_key = config.get('api_key');
+const api_secret = config.get('api_secret');
 router.post('/selected', async (req, res) => {
     let ships = req.body.ships;
     let returnArray = [];
@@ -23,42 +31,64 @@ router.post('/selected', async (req, res) => {
 
     return res.status(200).json(sendArray);
 });
-async function nationWrapper(ships) {
-    return new Promise(async (resolve) => {
-        let returnArray = []
-        try {
-            await ships.map(async (ship) => {
-                //console.log(ship);
-                let result = await Ships.find({ nation: ship });
-                // new Promise.all(result => {
-                //     result.map(ship => {
-                //         returnArray.push(ship);
 
-                //     });
-                //     resolve();
-                // });
-                //console.log(result);
-                console.log('pushed');
-                returnArray.push(result);
-            });
-            console.log('about to resolve');
-            resolve(returnArray);
-        } catch (err) {
-            console.log(err);
-        }
+router.post('/ship-url', upload.single('image'), async (req, res) => {
+    console.log(req.file);
+    console.log(req.body);
+
+    cloudinary.config({
+        cloud_name: "dd3ohuzsz",
+        api_key: api_key,
+        api_secret: api_secret
     })
-}
-async function findNation(ship) {
+
+    let data = await uploadFromBuffer(req);
+    let linkToSave = data.url;
+
+    console.log(linkToSave);
+    return res.status(200).json(linkToSave);
+});
+
+function uploadFromBuffer(req) {
     return new Promise((resolve, reject) => {
-        Ships.find({ nation: ship }).then(result => {
-            console.log(result);
-            resolve(result)
+        let cld_upload_stream = cloudinary.uploader.upload_stream({}, (error, result) => {
+            if (result) {
+                resolve(result);
+            }
+            else {
+                reject(error);
+            }
         });
-    })
+
+        streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream);
+    });
+
 }
+router.put('/update', async (req, res) => {
+    let newProps = req.body;
+    console.log(newProps);
+    try {
+        let ship = await Ships.findOneAndUpdate({ name: newProps.name }, { $set: newProps });
+        res.status(200).json({ success: 'success' });
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+router.delete('/ship', async (req, res) => {
+    let shipName = req.body.name;
+    console.log(shipName);
+    try {
+        await Ships.remove({ name: shipName });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'error' });
+    }
+    res.status(200).json({ success: 'success' });
+});
 router.put('/', async (req, res) => {
     console.log(req.body);
-    let { name, units, nation, points } = req.body;
+    let { name, units, nation, points, image } = req.body;
 
     units = parseInt(units);
     points = parseInt(points);
@@ -69,11 +99,15 @@ router.put('/', async (req, res) => {
             name,
             number_available: units,
             nation,
-            points
+            points,
+            image,
+            class: req.body.class
         });
         await newShip.save();
+        res.status(200).json({ success: 'success' });
     } catch (err) {
         console.log(err);
+        res.status(500).json({ error: 'error' });
     }
 });
 module.exports = router;
