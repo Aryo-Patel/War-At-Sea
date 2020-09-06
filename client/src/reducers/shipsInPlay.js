@@ -14,8 +14,8 @@ export default function (state = initialState, action) {
         case REMOVE_ONE_SHIP:
             let removeOneShipArr = state;
             console.log(payload.name);
-            removeOneShipArr.allies = removeOneShipArr.allies.filter(ship => ship.name !== payload.name);
-            removeOneShipArr.axis = removeOneShipArr.axis.filter(ship => ship.name !== payload.name);
+            removeOneShipArr.allies = removeOneShipArr.allies.filter(ship => ship.secretName !== payload.name);
+            removeOneShipArr.axis = removeOneShipArr.axis.filter(ship => ship.secretName !== payload.name);
 
             if (!removeOneShipArr.allies) {
                 removeOneShipArr.allies = [];
@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
             let toggleArr = state;
             if (payload.faction == 'allies') {
                 toggleArr.allies = toggleArr.allies.map(ship => {
-                    if (ship.name == payload.ship) {
+                    if (ship.secretName == payload.ship) {
                         return {
                             ...ship,
                             locked: !ship.locked
@@ -70,15 +70,19 @@ export default function (state = initialState, action) {
             return toggleArr;
         case LOAD_ONE_SHIP:
             if (payload.faction == 'axis') {
+                let secretName = payload.ship;
+                secretName += ' ' + state.axis.filter(ship => ship.name === payload.ship).length;
                 return {
                     ...state,
-                    axis: [...state.axis, { name: payload.ship, quantity: 1, locked: false }]
+                    axis: [...state.axis, { name: payload.ship, secretName, locked: false }]
                 }
             }
             else {
+                let secretName = payload.ship;
+                secretName += ' ' + state.allies.filter(ship => ship.name === payload.ship).length;
                 return {
                     ...state,
-                    allies: [...state.allies, { name: payload.ship, quantity: 1, locked: false }]
+                    allies: [...state.allies, { name: payload.ship, secretName, locked: false }]
                 }
             }
 

@@ -48,10 +48,9 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
         //update shipsInPlay
         let shipList;
         if (userSelection.allies[0] === 'All') {
-            console.log('in this check');
             shipList = allShips.filter(ship => {
                 let shipNation = ship.nation;
-                let axisNations = ['Italy', 'Finland', 'Japan', 'Germany'];
+                let axisNations = ['Italy', 'Finland', 'Japan', 'Germany', 'Axis Neutral/Instalations'];
                 return axisNations.indexOf(shipNation) === -1;
             });
         }
@@ -62,7 +61,6 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
         }
 
         let iterCount = 0;
-        console.log(alliesPoints);
         while (alliesPoints < points && shipList.length > 0 && iterCount < allShips.length * 10) {
             iterCount++;
             let index = Math.floor(Math.random() * shipList.length);
@@ -77,7 +75,7 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
                 console.log(shipList[index].name);
                 console.log(shipExistence);
                 if (shipExistence.length > 0) {
-                    currQuant = shipExistence[0].quantity;
+                    currQuant = shipExistence.length;
                 }
 
                 //see if currentQuant = max from all ships
@@ -96,18 +94,17 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
                         alliesPoints += shipList[index].points;
                         shipsInPlay.allies.push({
                             name: shipList[index].name,
-                            quantity: 1,
+                            secretName: shipList[index].name + ' 0',
                             locked: false
                         });
                     } else {
-                        updateOneShip(shipList[index].name, 'allies');
+                        loadOneShip(shipList[index].name, 'allies');
                         setFactionPoints('allies', shipList[index].points);
                         alliesPoints += shipList[index].points;
-
-                        shipsInPlay.allies.forEach(ship => {
-                            if (ship.name === shipList[index].name) {
-                                ship.quantity = ship.quantity + 1;
-                            }
+                        shipsInPlay.allies.push({
+                            name: shipList[index].name,
+                            secretName: shipList[index].name + ` ${currQuant}`,
+                            locked: false
                         });
                     }
                 }
@@ -140,38 +137,6 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
         });
         setFactionPoints('allies', alliesAddAmount);
         setFactionPoints('axis', axisAddAmount);
-        // let alliesSubtractAmount = points;
-        // let axisSubtractAmount = points;
-        // shipsInPlay.allies.forEach(ship => {
-        //     let shipFound = allShips.filter(allShip => allShip.name === ship.name);
-        //     alliesSubtractAmount += shipFound.points;
-        // });
-        // shipsInPlay.axis.forEach(ship => {
-        //     let shipFound = allShips.filter(allShip => allShip.name === ship.name);
-        //     axisSubtractAmount += shipFound.points;
-        // });
-        // console.log(points - alliesSubtractAmount);
-        // setFactionPoints('allies', points - alliesSubtractAmount);
-        // setFactionPoints('axis', points - axisSubtractAmount);
-        // let alliesNegativeCounter = 0;
-        // shipsInPlay.allies.forEach(ship => {
-        //     if (ship.locked == false) {
-        //         let shipFound = allShips.filter(allShip => allShip.name === ship.name);
-        //         alliesNegativeCounter -= shipFound[0].points;
-        //         alliesPoints -= shipFound[0].points;
-        //     }
-        // });
-        // let axisNegativeCounter = 0;
-        // shipsInPlay.axis.forEach(ship => {
-        //     if (ship.locked == false) {
-        //         let shipFound = allShips.filter(allShip => allShip.name === ship.name);
-        //         axisNegativeCounter -= shipFound[0].points;
-        //         axisPoints -= shipFound[0].points;
-        //     }
-        // });
-        // setFactionPoints('allies', alliesNegativeCounter);
-        // setFactionPoints('axis', axisNegativeCounter);
-
     }
     return (
         <div className="points-wrapper">

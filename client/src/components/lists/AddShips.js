@@ -76,13 +76,13 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
 
         //check to see whether the ship is in ships in play
         let shipInPlay = shipsInPlay.filter(ship => ship.name === shipName);
-        console.log(shipInPlay);
+
         //update redux to include that ship in the ships in play if necessary
         if (shipInPlay.length === 0) {
 
 
             let shipPoints = allShips.filter(ship => ship.name === shipName);
-            console.log(shipPoints);
+
             let faction;
             if (axis_nations.indexOf(shipPoints.nation) == -1) {
                 faction = 'allies'
@@ -100,10 +100,10 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
 
         }
         else {
-            let currQuant = shipInPlay[0].quantity;
+            let currQuant = shipInPlay.length;
 
             let maxQuant = allShips.filter(ship => ship.name === shipName);
-            console.log(maxQuant);
+
             maxQuant = maxQuant[0].number_available;
 
             if (currQuant < maxQuant) {
@@ -119,7 +119,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
 
                 shipPoints = shipPoints[0].points;
                 if (alliesPoints + shipPoints <= maxPoints) {
-                    updateOneShip(shipName, faction);
+                    loadOneShip(shipName, faction);
                     setFactionPoints(faction, shipPoints);
                 }
             }
@@ -138,15 +138,15 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
             <div id="ship-content">
                 {faction === 'allies' ? (
                     displayShips.map(nation => {
-                        console.log(nation);
+                        //console.log(nation);
                         return (
                             <div className="ship-wrapper">
                                 <p key={i++} className="header-text">{nation.nation}</p>
                                 {nation.ships.map(ship => {
-                                    console.log(shipsInPlay);
+                                    //console.log(shipsInPlay);
                                     let shipExistence = shipsInPlay.filter(DBShip => DBShip.name === ship.name);
 
-                                    let total = shipExistence.length > 0 ? ship.number_available - shipExistence[0].quantity : ship.number_available;
+                                    let total = shipExistence.length > 0 ? ship.number_available - shipExistence.length : ship.number_available;
                                     return (
                                         total > 0 ? (
                                             <div className="ship-content-holder" onClick={e => displayShip(e, nation.nation)}>

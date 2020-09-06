@@ -16,10 +16,9 @@ const ShipsShown = props => {
     }, [alliesShips, axisShips]);
     allShips.forEach(ship => {
         alliesShips.forEach(allyShip => {
+            let alliesObject;
             if (allyShip.name === ship.name) {
-                for (let i = 0; i < allyShip.quantity; i++) {
-                    alliesArray.push(ship);
-                }
+                alliesArray.push({ ...ship, secretName: allyShip.secretName, locked: allyShip.locked });
 
             }
         });
@@ -35,6 +34,7 @@ const ShipsShown = props => {
         let classArr = Array.from(e.target.classList);
         if (classArr.indexOf('fa') == -1) {
             let shipName = e.target.getAttribute('name');
+            console.log(shipName);
             toggleLock(shipName, 'allies');
 
             let input = e.target.querySelector('input');
@@ -46,9 +46,14 @@ const ShipsShown = props => {
     function deleteSingleShip(e) {
         let shipName = e.target.getAttribute('name');
         removeOneShip({ name: e.target.getAttribute('name') });
-        let currShip = allShips.filter(ship => ship.name === shipName);
+        let shipIdentifier = shipName.split(' ');
+        shipIdentifier.splice(shipIdentifier.length - 1, 1);
+        shipIdentifier = shipIdentifier.join(' ');
+        console.log(shipIdentifier);
+        let currShip = allShips.filter(ship => ship.name === shipIdentifier);
         currShip = currShip[0];
-        let axisNations = ['Italy', 'Finland', 'Japan', 'Germany'];
+        console.log(currShip);
+        let axisNations = ['Italy', 'Finland', 'Japan', 'Germany', 'Axis Neutral/Instalations'];
         if (axisNations.indexOf(currShip.nation) !== -1) {
             setFactionPoints('axis', -currShip.points);
         }
@@ -61,26 +66,26 @@ const ShipsShown = props => {
         <div className="display-ship-wrapper">
             {faction === 'allies' ? (
                 alliesArray.map(allyShip => {
-                    let currShip = alliesShips.filter(ship => ship.name == allyShip.name);
+                    //let currShip = alliesShips.filter(ship => ship.secretName == allyShip.secetName);
                     return (
                         allyShip.image ?
-                            <div key={i++} className="ship-wrapper" name={allyShip.name} onClick={e => toggleCheckAllies(e)}>
+                            <div key={i++} className="ship-wrapper" name={allyShip.secretName} onClick={e => toggleCheckAllies(e)}>
                                 <span key={i++} className="no-pointer">Lock: </span>
 
-                                {currShip[0].locked ? <input key={i++} className="no-pointer" name={allyShip.name} type="checkbox" checked /> :
-                                    <input key={i++} className="no-pointer" name={allyShip.name} type="checkbox" />}
-                                <i name={allyShip.name} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
+                                {allyShip.locked ? <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" checked /> :
+                                    <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" />}
+                                <i name={allyShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
                                 <div key={i++} className="ship-placard no-pointer">
                                     <img key={i++} className="image-ship-placard no-pointer" src={allyShip.image} alt={allyShip.name} />
                                 </div>
                             </div>
                             :
-                            <div key={i++} className="ship-wrapper" name={allyShip.name} onClick={e => toggleCheckAllies(e)}>
+                            <div key={i++} className="ship-wrapper" name={allyShip.secretName} onClick={e => toggleCheckAllies(e)}>
                                 <span key={i++} className="no-pointer">Lock: </span>
 
-                                {currShip[0].locked ? <input key={i++} className="no-pointer" name={allyShip.name} type="checkbox" checked /> :
-                                    <input key={i++} className="no-pointer" name={allyShip.name} type="checkbox" />}
-                                <i name={allyShip.name} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
+                                {allyShip.locked ? <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" checked /> :
+                                    <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" />}
+                                <i name={allyShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
                                 <div key={i++} className="ship-placard no-pointer">
                                     <h3 key={i++} className="no-pointer">{allyShip.name}</h3>
                                     <h5 key={i++} className="no-pointer">{allyShip.nation}</h5>
