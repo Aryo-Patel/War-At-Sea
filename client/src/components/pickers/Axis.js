@@ -37,7 +37,7 @@ const Axis = props => {
                 <label className="container" id="neutral">
                     <input type="radio" />
                     <span className="checkmark"></span>
-                    Neutral / Instalations
+                    Axis Neutral / Instalations
                 </label>
             </div>
         </div>

@@ -3,7 +3,7 @@ import AddShips from './AddShips';
 import ShipsShown from './ShipsShown';
 import { connect } from 'react-redux';
 
-const AxisList = ({ points }) => {
+const AxisList = ({ points, axisPoints }) => {
     const [shipsLoaded, changeShips] = useState(false);
 
     function addAxis() {
@@ -14,7 +14,7 @@ const AxisList = ({ points }) => {
             <div className="axis-list-header-wrapper">
                 <div className="text-wrapper">
                     <h4>Axis list</h4>
-                    <p>0 / {points}</p>
+                    <p>{axisPoints} / {points}</p>
                 </div>
                 <div className="save-options">
                     <i className="fa fa-print"></i>
@@ -36,7 +36,8 @@ const AxisList = ({ points }) => {
 }
 
 const mapStateToProps = state => ({
-    points: state.points
+    points: state.points,
+    axisPoints: state.factionPoints.axis
 })
 
 export default connect(mapStateToProps, {})(AxisList);

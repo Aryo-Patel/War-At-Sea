@@ -122,7 +122,7 @@ const Allies = (props) => {
                 <label className="container" id="neutral">
                     <input type="radio" />
                     <span className="checkmark"></span>
-                    Neutral / Instalations
+                    Allies Neutral / Instalations
                 </label>
             </div>
         </div>

@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
             }
             else {
                 toggleArr.axis = toggleArr.axis.map(ship => {
-                    if (ship.name == payload.ship) {
+                    if (ship.secretName == payload.ship) {
                         return {
                             ...ship,
                             locked: !ship.locked

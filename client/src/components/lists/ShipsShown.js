@@ -16,7 +16,6 @@ const ShipsShown = props => {
     }, [alliesShips, axisShips]);
     allShips.forEach(ship => {
         alliesShips.forEach(allyShip => {
-            let alliesObject;
             if (allyShip.name === ship.name) {
                 alliesArray.push({ ...ship, secretName: allyShip.secretName, locked: allyShip.locked });
 
@@ -25,7 +24,7 @@ const ShipsShown = props => {
 
         axisShips.forEach(axisShip => {
             if (axisShip.name === ship.name) {
-                axisArray.push(ship);
+                axisArray.push({ ...ship, secretName: axisShip.secretName, locked: axisShip.locked });
             }
         });
     });
@@ -36,6 +35,19 @@ const ShipsShown = props => {
             let shipName = e.target.getAttribute('name');
             console.log(shipName);
             toggleLock(shipName, 'allies');
+
+            let input = e.target.querySelector('input');
+            if (input) {
+                input.checked = !input.checked;
+            }
+        }
+    }
+    function toggleCheckAxis(e) {
+        let classArr = Array.from(e.target.classList);
+        if (classArr.indexOf('fa') == -1) {
+            let shipName = e.target.getAttribute('name');
+            console.log(shipName);
+            toggleLock(shipName, 'axis');
 
             let input = e.target.querySelector('input');
             if (input) {
@@ -98,7 +110,36 @@ const ShipsShown = props => {
             )
                 :
                 (
-                    <h1>axis test</h1>
+                    axisArray.map(axisShip => {
+                        //let currShip = alliesShips.filter(ship => ship.secretName == axisShip.secetName);
+                        return (
+                            axisShip.image ?
+                                <div key={i++} className="ship-wrapper" name={axisShip.secretName} onClick={e => toggleCheckAxis(e)}>
+                                    <span key={i++} className="no-pointer">Lock: </span>
+
+                                    {axisShip.locked ? <input key={i++} className="no-pointer" name={axisShip.secretName} type="checkbox" checked /> :
+                                        <input key={i++} className="no-pointer" name={axisShip.secretName} type="checkbox" />}
+                                    <i name={axisShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
+                                    <div key={i++} className="ship-placard no-pointer">
+                                        <img key={i++} className="image-ship-placard no-pointer" src={axisShip.image} alt={axisShip.name} />
+                                    </div>
+                                </div>
+                                :
+                                <div key={i++} className="ship-wrapper" name={axisShip.secretName} onClick={e => toggleCheckAxis(e)}>
+                                    <span key={i++} className="no-pointer">Lock: </span>
+
+                                    {axisShip.locked ? <input key={i++} className="no-pointer" name={axisShip.secretName} type="checkbox" checked /> :
+                                        <input key={i++} className="no-pointer" name={axisShip.secretName} type="checkbox" />}
+                                    <i name={axisShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
+                                    <div key={i++} className="ship-placard no-pointer">
+                                        <h3 key={i++} className="no-pointer">{axisShip.name}</h3>
+                                        <h5 key={i++} className="no-pointer">{axisShip.nation}</h5>
+                                        <h5 key={i++} className="no-pointer">{axisShip.points}</h5>
+                                    </div>
+                                </div>
+                        )
+                    }
+                    )
                 )}
         </div>
     )

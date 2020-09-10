@@ -11,7 +11,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
     const [displayShips, updateDisplay] = useState([]);
     let displayArray = {};
 
-    let axis_nations = ['Italy, Finland, Japan, Germany, Axis Neutral/Installations'];
+    let axis_nations = ['Italy', 'Finland', 'Japan', 'Germany', 'Axis Neutral/Installations'];
     useEffect(() => {
         async function getShips() {
             let data;
@@ -36,6 +36,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                 displayArray[ship.nation] = [{
                     name: ship.name,
                     number_available: ship.number_available,
+                    class: ship.class,
                     points: ship.points
                 }];
 
@@ -45,6 +46,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                 displayArray[ship.nation].push({
                     name: ship.name,
                     number_available: ship.number_available,
+                    class: ship.class,
                     points: ship.points
                 })
             }
@@ -84,17 +86,27 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
             let shipPoints = allShips.filter(ship => ship.name === shipName);
 
             let faction;
+            shipPoints = shipPoints[0];
             if (axis_nations.indexOf(shipPoints.nation) == -1) {
-                faction = 'allies'
+                faction = 'allies';
             }
             else {
                 faction = 'axis';
             }
+            console.log(faction);
+            shipPoints = shipPoints.points;
+            if (faction === 'allies') {
+                if (alliesPoints + shipPoints <= maxPoints) {
+                    loadOneShip(shipName, faction);
+                    setFactionPoints(faction, shipPoints);
+                }
 
-            shipPoints = shipPoints[0].points;
-            if (alliesPoints + shipPoints <= maxPoints) {
-                loadOneShip(shipName, faction);
-                setFactionPoints(faction, shipPoints);
+            }
+            else {
+                if (axisPoints + shipPoints <= maxPoints) {
+                    loadOneShip(shipName, faction);
+                    setFactionPoints(faction, shipPoints);
+                }
             }
 
 
@@ -108,7 +120,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
 
             if (currQuant < maxQuant) {
                 let shipPoints = allShips.filter(ship => ship.name === shipName);
-
+                shipPoints = shipPoints[0];
                 let faction;
                 if (axis_nations.indexOf(shipPoints.nation) == -1) {
                     faction = 'allies'
@@ -117,10 +129,18 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                     faction = 'axis';
                 }
 
-                shipPoints = shipPoints[0].points;
-                if (alliesPoints + shipPoints <= maxPoints) {
-                    loadOneShip(shipName, faction);
-                    setFactionPoints(faction, shipPoints);
+                shipPoints = shipPoints.points;
+                if (faction == 'allies') {
+                    if (alliesPoints + shipPoints <= maxPoints) {
+                        loadOneShip(shipName, faction);
+                        setFactionPoints(faction, shipPoints);
+                    }
+                }
+                else {
+                    if (axisPoints + shipPoints <= maxPoints) {
+                        loadOneShip(shipName, faction);
+                        setFactionPoints(faction, shipPoints);
+                    }
                 }
             }
             else {
@@ -151,10 +171,12 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                                         total > 0 ? (
                                             <div className="ship-content-holder" onClick={e => displayShip(e, nation.nation)}>
                                                 <p key={i++} name="ship" className="ship">{ship.name}</p>
+                                                <p key={i++} name="class" className="class">Class: {ship.class ? ship.class : 'N/A'}</p>
                                                 <p key={i++} name="number-available" className="number-available">
-                                                    {total}
+                                                    Qty: {total}
                                                 </p>
-                                                <p key={i++} name="point-value" className="point-value">{ship.points}</p>
+                                                <p key={i++} name="point-value" className="point-value">Pts: {ship.points}</p>
+
                                             </div>
                                         )
                                             :
@@ -171,12 +193,30 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                         displayShips.map(nation => {
 
                             return (
-                                <Fragment>
+                                <div className="ship-wrapper">
                                     <p key={i++} className="header-text">{nation.nation}</p>
-                                    {nation.ships.map(ship => (
-                                        <p key={i++} className="ship">{ship.name}</p>
-                                    ))}
-                                </Fragment>
+                                    {nation.ships.map(ship => {
+                                        //console.log(shipsInPlay);
+                                        let shipExistence = shipsInPlay.filter(DBShip => DBShip.name === ship.name);
+
+                                        let total = shipExistence.length > 0 ? ship.number_available - shipExistence.length : ship.number_available;
+                                        return (
+                                            total > 0 ? (
+                                                <div className="ship-content-holder" onClick={e => displayShip(e, nation.nation)}>
+                                                    <p key={i++} name="ship" className="ship">{ship.name}</p>
+                                                    <p key={i++} name="class" className="class">Class: {ship.class ? ship.class : 'N/A'}</p>
+                                                    <p key={i++} name="number-available" className="number-available">
+                                                        Qty: {total}
+                                                    </p>
+                                                    <p key={i++} name="point-value" className="point-value">Pts: {ship.points}</p>
+                                                </div>
+                                            )
+                                                :
+                                                <Fragment></Fragment>
+                                        )
+                                    }
+                                    )}
+                                </div>
 
                             )
                         })

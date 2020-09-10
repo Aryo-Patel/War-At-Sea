@@ -1,6 +1,7 @@
 {
   "name": "WarAtSea",
   "version": "1.0.0",
+  "homepage": "https://mynerdbox.ca",
   "description": "",
   "main": "app.js",
   "scripts": {

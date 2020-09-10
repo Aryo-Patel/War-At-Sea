@@ -111,6 +111,71 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
             }
 
         }
+        //update shipsInPlay
+        if (userSelection.axis[0] === 'All') {
+            shipList = allShips.filter(ship => {
+                let shipNation = ship.nation;
+                let axisNations = ['Italy', 'Finland', 'Japan', 'Germany', 'Axis Neutral/Instalations'];
+                return axisNations.indexOf(shipNation) !== -1;
+            });
+        }
+        else {
+            shipList = allShips.filter(ship => {
+                return userSelection.axis.indexOf(ship.nation) !== -1;
+            });
+        }
+
+        iterCount = 0;
+        while (axisPoints < points && shipList.length > 0 && iterCount < allShips.length * 10) {
+            iterCount++;
+            let index = Math.floor(Math.random() * shipList.length);
+            if (axisPoints + shipList[index].points > points) {
+                shipList.splice(index, 1);
+            }
+            else {
+                //check if in shipsInPlay already
+                let currQuant = 0;
+                let shipExistence = shipsInPlay.axis.filter(ship => ship.name == shipList[index].name);
+                console.log(shipsInPlay.allies);
+                console.log(shipList[index].name);
+                console.log(shipExistence);
+                if (shipExistence.length > 0) {
+                    currQuant = shipExistence.length;
+                }
+
+                //see if currentQuant = max from all ships
+                //if so remove it from ship list
+                //otherwise add one to the shipsInPlay quantity
+                let shipMax = allShips.filter(ship => ship.name == shipList[index].name);
+                shipMax = shipMax[0].number_available;
+
+                if (shipMax == currQuant) {
+                    shipList.splice(index, 1);
+                }
+                else {
+                    if (currQuant === 0) {
+                        loadOneShip(shipList[index].name, 'axis');
+                        setFactionPoints('axis', shipList[index].points);
+                        axisPoints += shipList[index].points;
+                        shipsInPlay.axis.push({
+                            name: shipList[index].name,
+                            secretName: shipList[index].name + ' 0',
+                            locked: false
+                        });
+                    } else {
+                        loadOneShip(shipList[index].name, 'axis');
+                        setFactionPoints('axis', shipList[index].points);
+                        axisPoints += shipList[index].points;
+                        shipsInPlay.axis.push({
+                            name: shipList[index].name,
+                            secretName: shipList[index].name + ` ${currQuant}`,
+                            locked: false
+                        });
+                    }
+                }
+            }
+
+        }
     }
     function resetShips(e) {
         removeShips();
