@@ -53,11 +53,29 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
         });
         console.log(displayArray);
         let tempArr = [];
+        let classOrder = ['B', 'CV', 'C', 'D', 'PB', 'S', 'AP', 'A', 'AC'];
         Object.keys(displayArray).forEach(nation => {
-
+            let shipArray = displayArray[nation];
+            shipArray.sort((ship1, ship2) => {
+                if(classOrder.indexOf(ship1.class) !== -1 && classOrder.indexOf(ship2.class) !== -1){
+                    if(classOrder.indexOf(ship1.class) - classOrder.indexOf(ship2.class) == 0){
+                        if(ship1.points - ship2.points == 0){
+                            return ship1.name - ship2.name
+                        }
+                        return ship1.points - ship2.points;
+                    }
+                    return classOrder.indexOf(ship1.class) - classOrder.indexOf(ship2.class);
+                }
+                else{
+                    console.log('no sorting done');
+                    console.log(ship1);
+                    console.log(ship2);
+                    return;
+                }
+            });
             tempArr.push({
                 nation,
-                ships: displayArray[nation]
+                ships: shipArray
             })
         });
         updateDisplay([...displayShips, ...tempArr]);
@@ -82,9 +100,9 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
         //update redux to include that ship in the ships in play if necessary
         if (shipInPlay.length === 0) {
 
-
+            console.log(shipName);
             let shipPoints = allShips.filter(ship => ship.name === shipName);
-
+            console.log(shipPoints);
             let faction;
             shipPoints = shipPoints[0];
             if (axis_nations.indexOf(shipPoints.nation) == -1) {

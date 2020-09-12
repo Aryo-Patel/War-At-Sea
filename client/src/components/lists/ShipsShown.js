@@ -16,14 +16,13 @@ const ShipsShown = props => {
     }, [alliesShips, axisShips]);
     allShips.forEach(ship => {
         alliesShips.forEach(allyShip => {
-            if (allyShip.name === ship.name) {
+            if (allyShip.name === ship.name && ship.nation !== 'Axis Neutral / Instalations') {
                 alliesArray.push({ ...ship, secretName: allyShip.secretName, locked: allyShip.locked });
 
             }
         });
-
         axisShips.forEach(axisShip => {
-            if (axisShip.name === ship.name) {
+            if (axisShip.name === ship.name && ship.nation !== 'Allies Neutral / Instalations') {
                 axisArray.push({ ...ship, secretName: axisShip.secretName, locked: axisShip.locked });
             }
         });

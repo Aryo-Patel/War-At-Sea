@@ -16,10 +16,10 @@ router.post('/selected', async (req, res) => {
     console.log(ships);
     if (ships[0] == 'All') {
         if (req.body.faction == 'axis') {
-            returnArray = ['Italy', 'Finland', 'Japan', 'Germany', 'Neutral / Instalations']
+            returnArray = ['Italy', 'Finland', 'Japan', 'Germany', 'Axis Neutral / Instalations']
         }
         else {
-            returnArray = ['France', 'New Zealand', 'United Kingdom', 'Australia', 'Greece', 'Poland', 'United States', 'Canada', 'Netherlands', 'Soviet Union', 'Neutral / Instalations']
+            returnArray = ['France', 'New Zealand', 'United Kingdom', 'Australia', 'Greece', 'Poland', 'United States', 'Canada', 'Netherlands', 'Soviet Union', 'Allies Neutral / Instalations']
         }
     }
     else {
