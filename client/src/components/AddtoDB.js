@@ -30,7 +30,6 @@ const AddtoDB = ({ allShips }) => {
         name: ''
     });
     useEffect(() => {
-        console.log(existingShip);
     }, [existingShip]);
 
     const [displayType, updateDisplayType] = useState('new ship');
@@ -76,18 +75,15 @@ const AddtoDB = ({ allShips }) => {
 
                     try {
                         const body = shipProperties;
-                        console.log(shipProperties);
 
                         let newFormData = new FormData();
                         let newMyFile = document.getElementById('new-image');
                         let newLink;
                         if (newMyFile.files[0]) {
-                            console.log('inside the file statement');
                             newFormData.append('image', newMyFile.files[0], newMyFile.files[0].name);
                             let data = await axios.post('/ships/ship-url', newFormData);
 
                             newLink = data.data;
-                            console.log(newLink);
                             body.image = newLink;
 
                             await axios.put('/ships', body, config);
@@ -107,7 +103,7 @@ const AddtoDB = ({ allShips }) => {
                 }
             }
             else if (displayType === 'delete ship') {
-                console.log(deleteShip);
+                
                 try {
                     await axios.delete('/ships/ship', { data: deleteShip }, { headers: { 'Content-Type': "application/json" } });
                     alert('Successfully deleted ' + deleteShip.name);
@@ -126,12 +122,12 @@ const AddtoDB = ({ allShips }) => {
                     }
                 };
                 if (myFile.files[0]) {
-                    console.log('inside the file statement');
+                    
                     formData.append('image', myFile.files[0], myFile.files[0].name);
                     let data = await axios.post('/ships/ship-url', formData);
 
                     link = data.data;
-                    console.log(link);
+                    
                     let body = existingShip;
                     body.image = link;
                     await axios.put('/ships/update', body, config);
@@ -140,10 +136,10 @@ const AddtoDB = ({ allShips }) => {
                     //     image: link
                     // });
                     alert('Update complete');
-                    console.log('existingShip should be updated now');
+                    
                 }
                 else {
-                    //console.log(existingShip);
+                    
                     await axios.put('/ships/update', existingShip, config);
                     alert('Update complete');
                 }

@@ -12,7 +12,6 @@ const ShipsShown = props => {
     let inputs;
     useEffect(() => {
         inputs = document.querySelectorAll('inputs[class=no-pointer');
-        console.log(inputs);
     }, [alliesShips, axisShips]);
     allShips.forEach(ship => {
         alliesShips.forEach(allyShip => {
@@ -32,7 +31,6 @@ const ShipsShown = props => {
         let classArr = Array.from(e.target.classList);
         if (classArr.indexOf('fa') == -1) {
             let shipName = e.target.getAttribute('name');
-            console.log(shipName);
             toggleLock(shipName, 'allies');
 
             let input = e.target.querySelector('input');
@@ -75,6 +73,7 @@ const ShipsShown = props => {
     let i = 0;
     return (
         <div className="display-ship-wrapper">
+            <input type = 'checkbox' checked = {false} />
             {faction === 'allies' ? (
                 alliesArray.map(allyShip => {
                     //let currShip = alliesShips.filter(ship => ship.secretName == allyShip.secetName);
@@ -82,7 +81,7 @@ const ShipsShown = props => {
                         allyShip.image ?
                             <div key={i++} className="ship-wrapper" name={allyShip.secretName} onClick={e => toggleCheckAllies(e)}>
                                 <span key={i++} className="no-pointer">Lock: </span>
-
+                                {console.log(alliesShips)}
                                 {allyShip.locked ? <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" checked /> :
                                     <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" />}
                                 <i name={allyShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>

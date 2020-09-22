@@ -23,7 +23,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
         getShips();
     }, []);
     useEffect(() => {
-        console.log(displayShips);
+        
     }, [displayShips]);
     useEffect(() => {
         updateDisplayArray();
@@ -42,7 +42,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
 
             }
             else {
-                console.log(displayArray);
+                
                 displayArray[ship.nation].push({
                     name: ship.name,
                     number_available: ship.number_available,
@@ -51,7 +51,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                 })
             }
         });
-        console.log(displayArray);
+        
         let tempArr = [];
         let classOrder = ['B', 'CV', 'C', 'D', 'PB', 'S', 'AP', 'A', 'AC'];
         Object.keys(displayArray).forEach(nation => {
@@ -67,9 +67,6 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                     return classOrder.indexOf(ship1.class) - classOrder.indexOf(ship2.class);
                 }
                 else{
-                    console.log('no sorting done');
-                    console.log(ship1);
-                    console.log(ship2);
                     return;
                 }
             });
@@ -82,7 +79,6 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
 
     }
     function displayShip(e, nation) {
-        console.log(nation);
         let relevantShips = displayShips.filter(ship => {
             if (ship.nation === nation) {
                 return ship;
@@ -100,9 +96,9 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
         //update redux to include that ship in the ships in play if necessary
         if (shipInPlay.length === 0) {
 
-            console.log(shipName);
+
             let shipPoints = allShips.filter(ship => ship.name === shipName);
-            console.log(shipPoints);
+
             let faction;
             shipPoints = shipPoints[0];
             if (axis_nations.indexOf(shipPoints.nation) == -1) {
@@ -111,7 +107,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
             else {
                 faction = 'axis';
             }
-            console.log(faction);
+
             shipPoints = shipPoints.points;
             if (faction === 'allies') {
                 if (alliesPoints + shipPoints <= maxPoints) {
@@ -176,12 +172,12 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
             <div id="ship-content">
                 {faction === 'allies' ? (
                     displayShips.map(nation => {
-                        //console.log(nation);
+                        
                         return (
                             <div className="ship-wrapper">
                                 <p key={i++} className="header-text">{nation.nation}</p>
                                 {nation.ships.map(ship => {
-                                    //console.log(shipsInPlay);
+                                    
                                     let shipExistence = shipsInPlay.filter(DBShip => DBShip.name === ship.name);
 
                                     let total = shipExistence.length > 0 ? ship.number_available - shipExistence.length : ship.number_available;
@@ -214,7 +210,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                                 <div className="ship-wrapper">
                                     <p key={i++} className="header-text">{nation.nation}</p>
                                     {nation.ships.map(ship => {
-                                        //console.log(shipsInPlay);
+                                        
                                         let shipExistence = shipsInPlay.filter(DBShip => DBShip.name === ship.name);
 
                                         let total = shipExistence.length > 0 ? ship.number_available - shipExistence.length : ship.number_available;

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { loadAllShips } from '../actions/ships';
 const Header = ({ loadAllShips }) => {
     useEffect(() => {
-        console.log('in the use effect');
         loadAllShips();
     }, []);
     return (

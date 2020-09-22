@@ -6,7 +6,6 @@ import {
 } from './types';
 
 export const setPoints = (point) => dispatch => {
-    console.log('called')
     dispatch({
         payload: point,
         type: SET_POINTS
