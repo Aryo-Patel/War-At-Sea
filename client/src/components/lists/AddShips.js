@@ -174,7 +174,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                     displayShips.map(nation => {
                         
                         return (
-                            <div className="ship-wrapper">
+                            <div className="ship-wrapper" id = "allies-ship-wrapper">
                                 <p key={i++} className="header-text">{nation.nation}</p>
                                 {nation.ships.map(ship => {
                                     
@@ -207,7 +207,7 @@ const AddShips = ({ allies, axis, faction, shipsInPlay, allShips, loadOneShip, u
                         displayShips.map(nation => {
 
                             return (
-                                <div className="ship-wrapper">
+                                <div className="ship-wrapper" id = "axis-ship-wrapper">
                                     <p key={i++} className="header-text">{nation.nation}</p>
                                     {nation.ships.map(ship => {
                                         

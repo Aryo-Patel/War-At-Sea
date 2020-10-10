@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import AddShips from './AddShips';
 import ShipsShown from './ShipsShown';
 
+
+import {jsPDF} from 'jspdf';
+import $, { data } from 'jquery';
+
+import domToImage from 'dom-to-image';
+
+import html2canvas from 'html2canvas';
+
 import { connect } from 'react-redux';
 const AlliesList = ({ points, alliesPoints }) => {
 
@@ -10,8 +18,28 @@ const AlliesList = ({ points, alliesPoints }) => {
     function addAllies() {
         changeShips(!shipsLoaded);
     }
+
+    function generatePDF(){
+        window.scrollTo(0,0);
+        const printArea = document.getElementById('allies-container');
+        html2canvas(printArea, {allowTaint: true, useCORS: true}).then(canvas => {
+            console.log(canvas);
+            const dataURL  = canvas.toDataURL();
+            
+            const pdf = new jsPDF();
+
+            const imgProps = pdf.getImageProperties(dataURL);
+            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+            const pdfHeight = (imgProps.height * pdfWidth)/imgProps.width;
+
+
+            pdf.addImage(dataURL, 'PNG', 10, 10, pdfWidth, pdfHeight);
+
+            pdf.save('Allies_Ships.pdf');
+        })
+    }
     return (
-        <div className="allies-list-wrapper">
+        <div className="allies-list-wrapper" id = "allies-container">
             <div className="allies-list-header-wrapper">
                 <div className="text-wrapper">
                     <h4>Allies list</h4>
@@ -20,7 +48,7 @@ const AlliesList = ({ points, alliesPoints }) => {
                 <div className="save-options">
 
                     <i className="fa fa-print"></i>
-                    <i className="fa fa-file-pdf-o"></i>
+                    <i className="fa fa-file-pdf-o" onClick = {e => generatePDF()}></i>
                 </div>
             </div>
             <div className="line">

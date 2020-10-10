@@ -73,7 +73,6 @@ const ShipsShown = props => {
     let i = 0;
     return (
         <div className="display-ship-wrapper">
-            <input type = 'checkbox' checked = {false} />
             {faction === 'allies' ? (
                 alliesArray.map(allyShip => {
                     //let currShip = alliesShips.filter(ship => ship.secretName == allyShip.secetName);
@@ -81,12 +80,10 @@ const ShipsShown = props => {
                         allyShip.image ?
                             <div key={i++} className="ship-wrapper" name={allyShip.secretName} onClick={e => toggleCheckAllies(e)}>
                                 <span key={i++} className="no-pointer">Lock: </span>
-                                {console.log(alliesShips)}
-                                {allyShip.locked ? <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" checked /> :
-                                    <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" />}
+                                <input key={i++} className="no-pointer" name={allyShip.secretName} type='checkbox' checked = {allyShip.locked}/>
                                 <i name={allyShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
                                 <div key={i++} className="ship-placard no-pointer">
-                                    <img key={i++} className="image-ship-placard no-pointer" src={allyShip.image} alt={allyShip.name} />
+                                    <img key={i++} className="image-ship-placard no-pointer" src={allyShip.image} alt={allyShip.name} crossOrigin = 'anonymous'/>
                                 </div>
                             </div>
                             :
@@ -119,7 +116,7 @@ const ShipsShown = props => {
                                         <input key={i++} className="no-pointer" name={axisShip.secretName} type="checkbox" />}
                                     <i name={axisShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
                                     <div key={i++} className="ship-placard no-pointer">
-                                        <img key={i++} className="image-ship-placard no-pointer" src={axisShip.image} alt={axisShip.name} />
+                                        <img key={i++} className="image-ship-placard no-pointer" src={axisShip.image} alt={axisShip.name} crossOrigin = 'anonymous'/>
                                     </div>
                                 </div>
                                 :

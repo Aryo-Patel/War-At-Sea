@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+
 import { connect } from 'react-redux';
 import { loadAllShips } from '../actions/ships';
 const Header = ({ loadAllShips }) => {
@@ -14,6 +15,7 @@ const Header = ({ loadAllShips }) => {
             <span className="second-half">
                 {" "}List Generator
             </span>
+            
         </div>
     )
 }
