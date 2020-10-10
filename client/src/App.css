@@ -184,7 +184,9 @@ body {
   padding: 10px 0;
   justify-content: space-between;
 }
-
+.fa-file-pdf-o:hover{
+  cursor: pointer;
+}
 .text-wrapper {
   margin-left: 1.5%;
   display: flex;
