@@ -202,6 +202,9 @@ body {
 .save-options > i {
   margin-right: 20px;
 }
+.save-options > a{
+  margin-right: 20px;
+}
 .line {
   margin: 0 auto;
   width: 97.5%;

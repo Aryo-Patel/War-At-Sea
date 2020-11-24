@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AddShips from './AddShips';
 import ShipsShown from './ShipsShown';
-
+import PDFDownload from './PDFDownload';
 
 import {jsPDF} from 'jspdf';
 import $, { data } from 'jquery';
@@ -48,7 +48,7 @@ const AlliesList = ({ points, alliesPoints }) => {
                 <div className="save-options">
 
                     <i className="fa fa-print"></i>
-                    <i className="fa fa-file-pdf-o" onClick = {e => generatePDF()}></i>
+                    <PDFDownload id = "download" faction = 'allies'/>
                 </div>
             </div>
             <div className="line">
