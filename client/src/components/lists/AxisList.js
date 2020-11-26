@@ -40,8 +40,7 @@ const AxisList = ({ points, axisPoints }) => {
                     <p>{axisPoints} / {points}</p>
                 </div>
                 <div className="save-options">
-                    <i className="fa fa-print"></i>
-                    <PDFDownload id = "download" faction  = 'axis'/>
+                    <PDFDownload id = "download" totalPoints = {points} sidePoints = {axisPoints} faction  = 'axis'/>
                 </div>
             </div>
             <div className="line">

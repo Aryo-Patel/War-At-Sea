@@ -6,7 +6,14 @@ let LOADING = true;
 const ships = [];
 const styles = StyleSheet.create({
     page: {
-        flexDirection: "row"
+        flexDirection: "column"
+    },
+    headSection:{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: '10%',
     },
     section: {
         width: '100vw',
@@ -16,28 +23,65 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         margin: '10px',
+        marginLeft: '40px'
+    },
+    pageNumber: {
+        position: 'absolute',
+        bottom: '3',
+        right: '3',
+        padding: '15px'
     }
 });
 
 const TestPDF = (props) => {
+
     let i = 0;
-    
+    let currentDate = new Date();
+
+    let date = currentDate.getDate();
+    let month = currentDate.getMonth() + 1; //Be careful! January is 0 not 1
+    let year = currentDate.getFullYear();
+    year = year + "";
+    let lastPage = 0;
     return(
             <Document onRender = {() => {LOADING  = false}}>
             <Page size = "A4" style = {styles.page}>
+                <View style = {styles.headSection}>
+                    <Text>Faction: {props.faction === 'allies' ? 'Allies' : 'Axis'}</Text>
+                    <Text>Points: {props.sidePoints}/{props.totalPoints}</Text>
+                    <Text>Date: {month + ""}/{date + ""}/{year.substring(2) + ""}</Text>
+                </View>
+                <View style = {styles.pageNumber} fixed>
+                    <Text render={({ pageNumber, totalPages }) => (
+                                         `${pageNumber} / ${totalPages}`
+                                         )} fixed />
+                </View>
                 <View style = {styles.section}>
-                   {props.ships.map(ship => {
-                       return (
-                        ship.image ?
+                   {props.ships.map((ship, index) => {
+                       if(index%6 == 0 && props.ships.length > index){
+                           return (
+                                <View>
+                                    <Image style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
+
+                                </View>
+                           )
+                       }
+                       else{
+                        return (
+                            ship.image ?
+                                <View>
+                                    <Image style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
+                                </View>
+                                    
+                            :
                             <View>
-                                <Image style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
                             </View>
-                                
-                        :
-                        <View>
-                        </View>
-                       )
+    
+                           )
+                       }
+                       
                    })}
+
                 </View>
             </Page>
         </Document>
@@ -64,7 +108,7 @@ const PDFDownload = (props) => {
     let shipsToSend = faction  == 'allies' ? alliesArray : axisArray;
     return(
         
-            <PDFDownloadLink document = {<TestPDF ships = {shipsToSend} faction = {faction}/>} fileName = {faction + '.pdf'}>
+            <PDFDownloadLink document = {<TestPDF sidePoints = {props.sidePoints} totalPoints = {props.totalPoints} ships = {shipsToSend} faction = {faction}/>} fileName = {faction + '.pdf'}>
                 {({ blob, url, loading, error }) => (loading ? 'Loading document...' : <i className="fa fa-file-pdf-o"></i>)}
             </PDFDownloadLink>
         

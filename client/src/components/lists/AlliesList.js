@@ -46,9 +46,7 @@ const AlliesList = ({ points, alliesPoints }) => {
                     <p>{alliesPoints} / {points}</p>
                 </div>
                 <div className="save-options">
-
-                    <i className="fa fa-print"></i>
-                    <PDFDownload id = "download" faction = 'allies'/>
+                    <PDFDownload id = "download" totalPoints = {points} sidePoints = {alliesPoints} faction = 'allies'/>
                 </div>
             </div>
             <div className="line">

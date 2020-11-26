@@ -10,6 +10,26 @@ const streamifier = require('streamifier');
 const cloud_name = config.get('cloud_name');
 const api_key = config.get('api_key');
 const api_secret = config.get('api_secret');
+
+router.get('/changeURL', async (req, res) =>{
+    try{
+        let shipList = await Ships.find();
+
+        shipList.forEach(async (ship) => {
+            let colonIndex = ship.image.indexOf(':')
+            let newString = ship.image.substring(0, colonIndex) + 's' + ship.image.substring(colonIndex);
+            
+            await Ships.updateOne({name : ship.name}, {$set: {image: newString}});
+        })
+
+        
+    }catch(err){
+        console.log(err);
+    }
+
+    console.log('in here');
+    res.redirect('/')
+})
 router.post('/selected', async (req, res) => {
     let ships = req.body.ships;
     let returnArray = [];
@@ -64,6 +84,7 @@ function uploadFromBuffer(req) {
     });
 
 }
+
 router.put('/update', async (req, res) => {
     let newProps = req.body;
     console.log(newProps);
