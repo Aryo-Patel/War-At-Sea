@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: '10%',
+        padding: '5%',
+        fontSize: '12'
     },
     section: {
         width: '100vw',
@@ -29,7 +30,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: '3',
         right: '3',
-        padding: '15px'
+        padding: '15px',
+        fontSize: '12'
     }
 });
 
@@ -46,7 +48,7 @@ const TestPDF = (props) => {
     return(
             <Document onRender = {() => {LOADING  = false}}>
             <Page size = "A4" style = {styles.page}>
-                <View style = {styles.headSection}>
+                <View style = {styles.headSection} fixed>
                     <Text>Faction: {props.faction === 'allies' ? 'Allies' : 'Axis'}</Text>
                     <Text>Points: {props.sidePoints}/{props.totalPoints}</Text>
                     <Text>Date: {month + ""}/{date + ""}/{year.substring(2) + ""}</Text>

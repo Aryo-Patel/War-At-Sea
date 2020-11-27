@@ -31,21 +31,21 @@ connectDB();
 app.use('/ships', ships);
 
 
-//app.use(express.static('client/build'));
+app.use(express.static('client/build'));
 // app.get('*', (req, res) => {
 //     console.log('in app.get(*) outside of production');
 //     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 //     console.log('in app.get(*) outside of production');
 // });
-// if (process.env.NODE_ENV === 'production') {
-//     console.log('running production');
-//     //SET STATIC FOLDER
-//     app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production') {
+    console.log('running production');
+    //SET STATIC FOLDER
+    app.use(express.static('client/build'));
 
-//     app.get('*', (req, res, next) => {
-//         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//     })
-// }
+    app.get('*', (req, res, next) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
 
 app.listen(PORT, () => {
     console.log('Listening on port ' + PORT);
