@@ -26,8 +26,8 @@ export default function (state = initialState, action) {
             return removeOneShipArr;
         case REMOVE_SHIP:
             let removeArr = state;
-            removeArr.allies = removeArr.allies.filter(ship => ship.locked == true);
-            removeArr.axis = removeArr.axis.filter(ship => ship.locked == true);
+            removeArr.allies = removeArr.allies.filter(ship => ship.locked === true);
+            removeArr.axis = removeArr.axis.filter(ship => ship.locked === true);
             if (!removeArr.allies) {
                 removeArr.allies = [];
             }
@@ -37,9 +37,9 @@ export default function (state = initialState, action) {
             return removeArr;
         case TOGGLE_LOCK:
             let toggleArr = state;
-            if (payload.faction == 'allies') {
+            if (payload.faction === 'allies') {
                 toggleArr.allies = toggleArr.allies.map(ship => {
-                    if (ship.secretName == payload.ship) {
+                    if (ship.secretName === payload.ship) {
                         return {
                             ...ship,
                             locked: !ship.locked
@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
             }
             else {
                 toggleArr.axis = toggleArr.axis.map(ship => {
-                    if (ship.secretName == payload.ship) {
+                    if (ship.secretName === payload.ship) {
                         return {
                             ...ship,
                             locked: !ship.locked
@@ -69,7 +69,7 @@ export default function (state = initialState, action) {
             }
             return toggleArr;
         case LOAD_ONE_SHIP:
-            if (payload.faction == 'axis') {
+            if (payload.faction === 'axis') {
                 let secretName = payload.ship;
                 secretName += ' ' + state.axis.filter(ship => ship.name === payload.ship).length;
                 return {

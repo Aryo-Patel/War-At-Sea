@@ -22,13 +22,13 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
     }
     useEffect(() => {
         setPoints(currPoints);
-    }, [currPoints]);
+    }, [currPoints, setPoints]);
 
 
     function generateShips() {
         let alliesNegativeCounter = 0;
         shipsInPlay.allies.forEach(ship => {
-            if (ship.locked == false) {
+            if (ship.locked === false) {
                 let shipFound = allShips.filter(allShip => allShip.name === ship.name);
                 alliesNegativeCounter -= shipFound[0].points;
                 alliesPoints -= shipFound[0].points;
@@ -36,7 +36,7 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
         });
         let axisNegativeCounter = 0;
         shipsInPlay.axis.forEach(ship => {
-            if (ship.locked == false) {
+            if (ship.locked === false) {
                 let shipFound = allShips.filter(allShip => allShip.name === ship.name);
                 axisNegativeCounter -= shipFound[0].points;
                 axisPoints -= shipFound[0].points;
@@ -70,10 +70,8 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
             else {
                 //check if in shipsInPlay already
                 let currQuant = 0;
-                let shipExistence = shipsInPlay.allies.filter(ship => ship.name == shipList[index].name);
-                console.log(shipsInPlay.allies);
-                console.log(shipList[index].name);
-                console.log(shipExistence);
+                let shipExistence = shipsInPlay.allies.filter(ship => ship.name === shipList[index].name);
+
                 if (shipExistence.length > 0) {
                     currQuant = shipExistence.length;
                 }
@@ -81,10 +79,10 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
                 //see if currentQuant = max from all ships
                 //if so remove it from ship list
                 //otherwise add one to the shipsInPlay quantity
-                let shipMax = allShips.filter(ship => ship.name == shipList[index].name);
+                let shipMax = allShips.filter(ship => ship.name === shipList[index].name);
                 shipMax = shipMax[0].number_available;
 
-                if (shipMax == currQuant) {
+                if (shipMax === currQuant) {
                     shipList.splice(index, 1);
                 }
                 else {
@@ -135,10 +133,8 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
             else {
                 //check if in shipsInPlay already
                 let currQuant = 0;
-                let shipExistence = shipsInPlay.axis.filter(ship => ship.name == shipList[index].name);
-                console.log(shipsInPlay.allies);
-                console.log(shipList[index].name);
-                console.log(shipExistence);
+                let shipExistence = shipsInPlay.axis.filter(ship => ship.name === shipList[index].name);
+
                 if (shipExistence.length > 0) {
                     currQuant = shipExistence.length;
                 }
@@ -146,10 +142,10 @@ const Points = ({ setPoints, allShips, userSelection, alliesPoints, axisPoints, 
                 //see if currentQuant = max from all ships
                 //if so remove it from ship list
                 //otherwise add one to the shipsInPlay quantity
-                let shipMax = allShips.filter(ship => ship.name == shipList[index].name);
+                let shipMax = allShips.filter(ship => ship.name === shipList[index].name);
                 shipMax = shipMax[0].number_available;
 
-                if (shipMax == currQuant) {
+                if (shipMax === currQuant) {
                     shipList.splice(index, 1);
                 }
                 else {

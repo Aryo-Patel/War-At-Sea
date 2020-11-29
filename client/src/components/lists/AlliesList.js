@@ -3,12 +3,7 @@ import AddShips from './AddShips';
 import ShipsShown from './ShipsShown';
 import PDFDownload from './PDFDownload';
 
-import {jsPDF} from 'jspdf';
-import $, { data } from 'jquery';
 
-import domToImage from 'dom-to-image';
-
-import html2canvas from 'html2canvas';
 
 import { connect } from 'react-redux';
 const AlliesList = ({ points, alliesPoints }) => {
@@ -19,25 +14,25 @@ const AlliesList = ({ points, alliesPoints }) => {
         changeShips(!shipsLoaded);
     }
 
-    function generatePDF(){
-        window.scrollTo(0,0);
-        const printArea = document.getElementById('allies-container');
-        html2canvas(printArea, {allowTaint: true, useCORS: true}).then(canvas => {
-            console.log(canvas);
-            const dataURL  = canvas.toDataURL();
+    // function generatePDF(){
+    //     window.scrollTo(0,0);
+    //     const printArea = document.getElementById('allies-container');
+    //     html2canvas(printArea, {allowTaint: true, useCORS: true}).then(canvas => {
+    //         console.log(canvas);
+    //         const dataURL  = canvas.toDataURL();
             
-            const pdf = new jsPDF();
+    //         const pdf = new jsPDF();
 
-            const imgProps = pdf.getImageProperties(dataURL);
-            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
-            const pdfHeight = (imgProps.height * pdfWidth)/imgProps.width;
+    //         const imgProps = pdf.getImageProperties(dataURL);
+    //         const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+    //         const pdfHeight = (imgProps.height * pdfWidth)/imgProps.width;
 
 
-            pdf.addImage(dataURL, 'PNG', 10, 10, pdfWidth, pdfHeight);
+    //         pdf.addImage(dataURL, 'PNG', 10, 10, pdfWidth, pdfHeight);
 
-            pdf.save('Allies_Ships.pdf');
-        })
-    }
+    //         pdf.save('Allies_Ships.pdf');
+    //     })
+    // }
     return (
         <div className="allies-list-wrapper" id = "allies-container">
             <div className="allies-list-header-wrapper">

@@ -56,7 +56,7 @@ const Allies = (props) => {
             });
             props.addShips(addShips);
         });
-    }, [])
+    }, [inputStates, props])
 
     return (
         <div className="allies-wrapper">

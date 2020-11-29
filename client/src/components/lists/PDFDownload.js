@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Document, Page, Text, View, StyleSheet, PDFDownloadLink, Image} from '@react-pdf/renderer';
 
 import { connect } from 'react-redux';
-let LOADING = true;
-const ships = [];
+
+
 const styles = StyleSheet.create({
     page: {
         flexDirection: "column"
@@ -36,17 +36,17 @@ const styles = StyleSheet.create({
 });
 
 const TestPDF = (props) => {
-
     let i = 0;
+
     let currentDate = new Date();
 
     let date = currentDate.getDate();
     let month = currentDate.getMonth() + 1; //Be careful! January is 0 not 1
     let year = currentDate.getFullYear();
     year = year + "";
-    let lastPage = 0;
+
     return(
-            <Document onRender = {() => {LOADING  = false}}>
+            <Document>
             <Page size = "A4" style = {styles.page}>
                 <View style = {styles.headSection} fixed>
                     <Text>Faction: {props.faction === 'allies' ? 'Allies' : 'Axis'}</Text>
@@ -60,10 +60,10 @@ const TestPDF = (props) => {
                 </View>
                 <View style = {styles.section}>
                    {props.ships.map((ship, index) => {
-                       if(index%6 == 0 && props.ships.length > index){
+                       if(index%6 === 0 && props.ships.length > index){
                            return (
-                                <View>
-                                    <Image style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
+                                <View key = {i++}>
+                                    <Image key = {i++} style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
 
                                 </View>
                            )
@@ -71,8 +71,8 @@ const TestPDF = (props) => {
                        else{
                         return (
                             ship.image ?
-                                <View>
-                                    <Image style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
+                                <View key = {i++}>
+                                    <Image key = {i++} style = {{height: '239px', width: '170px', padding: '10px'}} src={ship.image}/>
                                 </View>
                                     
                             :
@@ -91,6 +91,7 @@ const TestPDF = (props) => {
     )
 }
 const PDFDownload = (props) => {
+    let i = 0;
     const {alliesShips, axisShips, allShips, faction}  = props;
     let alliesArray = [];
     let axisArray = [];
@@ -107,10 +108,10 @@ const PDFDownload = (props) => {
             }
         });
     });
-    let shipsToSend = faction  == 'allies' ? alliesArray : axisArray;
+    let shipsToSend = faction  === 'allies' ? alliesArray : axisArray;
     return(
         
-            <PDFDownloadLink document = {<TestPDF sidePoints = {props.sidePoints} totalPoints = {props.totalPoints} ships = {shipsToSend} faction = {faction}/>} fileName = {faction + '.pdf'}>
+            <PDFDownloadLink key = {i++} document = {<TestPDF sidePoints = {props.sidePoints} totalPoints = {props.totalPoints} ships = {shipsToSend} faction = {faction}/>} fileName = {faction + '.pdf'}>
                 {({ blob, url, loading, error }) => (loading ? 'Loading document...' : <i className="fa fa-file-pdf-o"></i>)}
             </PDFDownloadLink>
         

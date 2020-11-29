@@ -9,9 +9,9 @@ const ShipsShown = props => {
     const { alliesShips, axisShips, faction, allShips, toggleLock, removeOneShip, setFactionPoints } = props;
     let alliesArray = [];
     let axisArray = [];
-    let inputs;
+    //let inputs;
     useEffect(() => {
-        inputs = document.querySelectorAll('inputs[class=no-pointer');
+        //let inputs = document.querySelectorAll('inputs[class=no-pointer');
     }, [alliesShips, axisShips]);
     allShips.forEach(ship => {
         alliesShips.forEach(allyShip => {
@@ -29,7 +29,7 @@ const ShipsShown = props => {
 
     function toggleCheckAllies(e) {
         let classArr = Array.from(e.target.classList);
-        if (classArr.indexOf('fa') == -1) {
+        if (classArr.indexOf('fa') === -1) {
             let shipName = e.target.getAttribute('name');
             toggleLock(shipName, 'allies');
 
@@ -41,7 +41,7 @@ const ShipsShown = props => {
     }
     function toggleCheckAxis(e) {
         let classArr = Array.from(e.target.classList);
-        if (classArr.indexOf('fa') == -1) {
+        if (classArr.indexOf('fa') === -1) {
             let shipName = e.target.getAttribute('name');
             console.log(shipName);
             toggleLock(shipName, 'axis');
@@ -80,7 +80,7 @@ const ShipsShown = props => {
                         allyShip.image ?
                             <div key={i++} className="ship-wrapper" name={allyShip.secretName} onClick={e => toggleCheckAllies(e)}>
                                 <span key={i++} className="no-pointer">Lock: </span>
-                                <input key={i++} className="no-pointer" name={allyShip.secretName} type='checkbox' checked = {allyShip.locked}/>
+                                <input key={i++} className="no-pointer" name={allyShip.secretName} type='checkbox' defaultChecked = {allyShip.locked}/>
                                 <i name={allyShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
                                 <div key={i++} className="ship-placard no-pointer">
                                     <img key={i++} className="image-ship-placard no-pointer" src={allyShip.image} alt={allyShip.name} crossOrigin = 'anonymous'/>
@@ -90,7 +90,7 @@ const ShipsShown = props => {
                             <div key={i++} className="ship-wrapper" name={allyShip.secretName} onClick={e => toggleCheckAllies(e)}>
                                 <span key={i++} className="no-pointer">Lock: </span>
 
-                                {allyShip.locked ? <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" checked /> :
+                                {allyShip.locked ? <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" defaultChecked /> :
                                     <input key={i++} className="no-pointer" name={allyShip.secretName} type="checkbox" />}
                                 <i name={allyShip.secretName} className="fa fa-trash delete" onClick={e => deleteSingleShip(e)}></i>
                                 <div key={i++} className="ship-placard no-pointer">

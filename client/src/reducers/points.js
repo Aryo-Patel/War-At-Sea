@@ -9,14 +9,14 @@ export default function (state = initialState, action) {
 
     switch (type) {
         case SET_POINTS:
-            if (payload == '') {
+            if (payload === '') {
                 return 0;
             }
             else {
                 return Number(payload);
             }
 
-            break;
+
         default:
             return state;
     }

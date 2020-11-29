@@ -164,7 +164,6 @@ const AddtoDB = ({ allShips }) => {
         currShipInfo = currShipInfo[0];
         updateExistingShip({
             nation: currShipInfo.nation,
-            class: currShipInfo.class,
             points: currShipInfo.points,
             units: currShipInfo.number_available,
             name: currShipInfo.name,
@@ -247,8 +246,8 @@ const AddtoDB = ({ allShips }) => {
                                 <input placeholder="Points" name="points" value={existingShip.points} onChange={e => updateChangeProps(e)} />
                                 <label for="class">Class: </label>
                                 <input placeholder="Class" name="class" value={existingShip.class} onChange={e => updateChangeProps(e)} />
-                                {existingShip.image ? <img className="existing-image" src={existingShip.image} alt="ship image here" /> : <label>No image for {existingShip.name}</label>}
-                                <input placeholder="Image" type="file" name="image" id="update-image" />
+                                {existingShip.image ? <img className="existing-image" src={existingShip.image} alt="placeholder for ship" /> : <label>No image for {existingShip.name}</label>}
+                                <input  type="file" name="image" id="update-image" />
                                 <input type="submit" className='database-submit' placeholder="submit" />
                             </Fragment>
                             :

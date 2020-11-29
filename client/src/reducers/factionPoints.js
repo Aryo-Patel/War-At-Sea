@@ -1,7 +1,6 @@
 import {
     SET_ALLIES_POINTS,
     SET_AXIS_POINTS,
-    RESET_POINTS
 } from '../actions/types';
 
 const initialState = {

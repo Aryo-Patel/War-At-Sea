@@ -4,34 +4,32 @@ import ShipsShown from './ShipsShown';
 import { connect } from 'react-redux';
 import PDFDownload from './PDFDownload';
 
-import html2canvas from 'html2canvas';
-import {jsPDF} from 'jspdf';
 const AxisList = ({ points, axisPoints }) => {
     const [shipsLoaded, changeShips] = useState(false);
 
     function addAxis() {
         changeShips(!shipsLoaded);
     }
-    function generateAxisPDF(){
-        window.scrollTo(0,0);
-        const printArea = document.getElementById('axis-container');
-        html2canvas(printArea, {allowTaint: true, useCORS: true}).then(canvas => {
+    // function generateAxisPDF(){
+    //     window.scrollTo(0,0);
+    //     const printArea = document.getElementById('axis-container');
+    //     html2canvas(printArea, {allowTaint: true, useCORS: true}).then(canvas => {
             
-            const dataURL  = canvas.toDataURL();
+    //         const dataURL  = canvas.toDataURL();
             
-            const pdf = new jsPDF();
+    //         const pdf = new jsPDF();
 
-            const imgProps = pdf.getImageProperties(dataURL);
-            console.log(imgProps);
-            const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
-            const pdfHeight = (imgProps.height * pdfWidth)/imgProps.width;
+    //         const imgProps = pdf.getImageProperties(dataURL);
+    //         console.log(imgProps);
+    //         const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+    //         const pdfHeight = (imgProps.height * pdfWidth)/imgProps.width;
 
 
-            pdf.addImage(dataURL, 'PNG', 10, 10, pdfWidth, pdfHeight);
+    //         pdf.addImage(dataURL, 'PNG', 10, 10, pdfWidth, pdfHeight);
 
-            pdf.save('Axis_Ships.pdf');
-        })
-    }
+    //         pdf.save('Axis_Ships.pdf');
+    //     })
+    // }
     return (
         <div className="axis-list-wrapper" id = "axis-container">
             <div className="axis-list-header-wrapper">
